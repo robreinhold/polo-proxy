@@ -13,16 +13,18 @@ import java.util.logging.Logger;
 public class NettyRouterStarter {
 
     private static final Logger LOG = Logger.getLogger(NettyRouterStarter.class.getName());
-    public static final int PORT = 5050;
-
+    private static final int PORT = 5050;
+    public static final String DISCOVER_SERVICE = "DISCOVER";
+    public static final String NOT_FOUND = "404 Not Found";
 
     public static void main(String[] args) throws Exception {
         Banner.printToLog();
 
         Router<String> router = new Router<String>()
-                .GET("/",             "Index page")
-                .GET("/consul/:serviceName", "Article show page")
-                .notFound("404 Not Found");
+                .GET("/", "Index")
+                .GET("/polo/:serviceName", DISCOVER_SERVICE)
+                .GET("/polo", DISCOVER_SERVICE)
+                .notFound(NOT_FOUND);
         LOG.info(router.toString());
 
         NioEventLoopGroup bossGroup   = new NioEventLoopGroup(1);

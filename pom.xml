@@ -88,6 +88,11 @@
             <artifactId>javassist</artifactId>
             <version>3.20.0-GA</version>
         </dependency>
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxnetty-http</artifactId>
+            <version>0.5.2-RC1</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
