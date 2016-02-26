@@ -41,7 +41,7 @@ import java.util.Map.Entry;
  * adds an additional response header "X-Proxied-By" with a value "RxNetty" to demonstrate that the response is a
  * proxied response.
  */
-public final class ProxyServer  {
+public final class RxNettyProxyStarter {
 
     public static void main(final String[] args) {
 
