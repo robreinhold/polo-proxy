@@ -53,11 +53,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.littleshoot</groupId>
-            <artifactId>littleproxy</artifactId>
-            <version>1.1.0-beta1</version>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.16</version>
@@ -75,22 +70,31 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.0.34.Final</version>
-            <!-- example has 4.0.31 -->
+            <version>4.1.0.CR2</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.javassist</groupId>-->
+            <!--<artifactId>javassist</artifactId>-->
+            <!--<version>3.20.0-GA</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxnetty-common</artifactId>
+            <version>0.5.2-RC1</version>
         </dependency>
         <dependency>
-            <groupId>tv.cntt</groupId>
-            <artifactId>netty-router</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.20.0-GA</version>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>io.reactivex</groupId>
             <artifactId>rxnetty-http</artifactId>
+            <version>0.5.2-RC1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxnetty-tcp</artifactId>
             <version>0.5.2-RC1</version>
         </dependency>
     </dependencies>

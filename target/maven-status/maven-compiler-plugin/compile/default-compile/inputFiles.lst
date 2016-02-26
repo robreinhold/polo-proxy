@@ -1,5 +1,2 @@
-/Users/rreinhold/code/service-discovery/polo-proxy/src/main/java/com/expedia/poloproxy/LittleProxyStarter.java
-/Users/rreinhold/code/service-discovery/polo-proxy/src/main/java/com/expedia/poloproxy/HttpRouterServerInitializer.java
-/Users/rreinhold/code/service-discovery/polo-proxy/src/main/java/com/expedia/poloproxy/HttpRouterServerHandler.java
-/Users/rreinhold/code/service-discovery/polo-proxy/src/main/java/com/expedia/poloproxy/NettyRouterStarter.java
+/Users/rreinhold/code/service-discovery/polo-proxy/src/main/java/com/expedia/poloproxy/RxNettyProxyStarter.java
 /Users/rreinhold/code/service-discovery/polo-proxy/src/main/java/com/expedia/poloproxy/Banner.java

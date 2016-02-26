@@ -19,9 +19,12 @@ package com.expedia.poloproxy;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.logging.LogLevel;
+import io.reactivex.netty.channel.ContentSource;
 import io.reactivex.netty.protocol.http.client.HttpClient;
 import io.reactivex.netty.protocol.http.client.HttpClientRequest;
 import io.reactivex.netty.protocol.http.server.HttpServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -43,21 +46,17 @@ import java.util.Map.Entry;
  */
 public final class RxNettyProxyStarter {
 
+    private static final Logger logger = LoggerFactory.getLogger(RxNettyProxyStarter.class);
+
     public static void main(final String[] args) {
 
         /*Starts an embedded target server using an ephemeral port.*/
-        int targetServerPort = startTargetServer();
+        int targetServerPort = 8080;
 
         /*Create a new HTTP client pointing to the target server.*/
         final HttpClient<ByteBuf, ByteBuf> targetClient = HttpClient.newClient("127.0.0.1", targetServerPort);
 
         HttpServer<ByteBuf, ByteBuf> server;
-
-        HttpServer<ByteBuf, ByteBuf> rob = HttpServer.newServer()
-                .enableWireLogging(LogLevel.DEBUG)
-                .start((robRequest, robResponse) -> {
-                    return null;
-                });
 
         /*Starts a new HTTP server on an ephemeral port which acts as a proxy to the target server started above.*/
         server = HttpServer.newServer()
@@ -68,6 +67,7 @@ public final class RxNettyProxyStarter {
                                        * Create a new HTTP request for the target server, using the method and URI from
                                        * the server request.
                                        */
+                    logger.info("Got a request: " + serverReq.getUri());
                             HttpClientRequest<ByteBuf, ByteBuf> clientReq =
                                     targetClient.createRequest(serverReq.getHttpMethod(), serverReq.getUri());
 
@@ -95,28 +95,20 @@ public final class RxNettyProxyStarter {
                                         }
 
                                                           /*Add a demo header to indicate proxied response!*/
-                                        serverResp.setHeader("X-Proxied-By", "RxNetty");
+                                        serverResp.setHeader("X-Proxied-By", "polo-proxy");
 
+                                        logger.info("Getting response content");
                                                           /*Write the client response content to server response.*/
-                                        return serverResp.write(clientResp.getContent());
+                                        ContentSource<ByteBuf> content = clientResp.getContent();
+                                        logger.info("Starting to write");
+                                        return serverResp.write(content);
                                     });
                         }
                 );
 
         /*Wait for shutdown if not called from the client (passed an arg)*/
-        if (shouldWaitForShutdown(args)) {
+        if (true) {
             server.awaitShutdown();
         }
-
-        /*If not waiting for shutdown, assign the ephemeral port used to a field so that it can be read and used by
-        the caller, if any.*/
-        setServerPort(server.getServerPort());
-    }
-
-    private static int startTargetServer() {
-        /*Start a hello world server using an ephemeral port*/
-        return HttpServer.newServer()
-                .start((req, resp) -> resp.writeString(just("HelloWorld!")))
-                .getServerPort();
     }
 }

@@ -1,8 +1,2 @@
-com/expedia/poloproxy/HttpRouterServerInitializer.class
-com/expedia/poloproxy/LittleProxyStarter$1.class
-com/expedia/poloproxy/LittleProxyStarter.class
-com/expedia/poloproxy/HttpRouterServerHandler.class
-com/expedia/poloproxy/LittleProxyStarter$2$1.class
-com/expedia/poloproxy/LittleProxyStarter$2.class
-com/expedia/poloproxy/NettyRouterStarter.class
+com/expedia/poloproxy/RxNettyProxyStarter.class
 com/expedia/poloproxy/Banner.class
