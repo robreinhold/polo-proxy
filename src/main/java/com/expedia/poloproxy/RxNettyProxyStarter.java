@@ -19,7 +19,6 @@ package com.expedia.poloproxy;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.logging.LogLevel;
-import io.reactivex.netty.channel.ContentSource;
 import io.reactivex.netty.protocol.http.client.HttpClient;
 import io.reactivex.netty.protocol.http.client.HttpClientRequest;
 import io.reactivex.netty.protocol.http.server.HttpServer;
@@ -50,6 +49,8 @@ public final class RxNettyProxyStarter {
 
     public static void main(final String[] args) {
 
+        Banner.printToLog();
+
         /*Starts an embedded target server using an ephemeral port.*/
         int targetServerPort = 8080;
 
@@ -59,7 +60,7 @@ public final class RxNettyProxyStarter {
         HttpServer<ByteBuf, ByteBuf> server;
 
         /*Starts a new HTTP server on an ephemeral port which acts as a proxy to the target server started above.*/
-        server = HttpServer.newServer()
+        server = HttpServer.newServer(5050)
                 .enableWireLogging(LogLevel.DEBUG)
                            /*Starts the server with the proxy request handler.*/
                 .start((serverReq, serverResp) -> {
@@ -97,11 +98,12 @@ public final class RxNettyProxyStarter {
                                                           /*Add a demo header to indicate proxied response!*/
                                         serverResp.setHeader("X-Proxied-By", "polo-proxy");
 
-                                        logger.info("Getting response content");
+                                        logger.info("Getting and flushing response content");
                                                           /*Write the client response content to server response.*/
-                                        ContentSource<ByteBuf> content = clientResp.getContent();
-                                        logger.info("Starting to write");
-                                        return serverResp.write(content);
+                                        return serverResp.writeAndFlushOnEach(clientResp.getContent());
+//                                        ContentSource<ByteBuf> content = clientResp.getContent();
+//                                        logger.info("Starting to write");
+//                                        return serverResp.write(content);
                                     });
                         }
                 );
